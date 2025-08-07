@@ -1,70 +1,242 @@
-# Getting Started with Create React App
+# 🏟️ Sistema de Reservas de Canchas - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend desarrollado en React para el sistema de reservas de canchas deportivas con arquitectura modular de componentes.
 
-## Available Scripts
+## 🚀 Características
 
-In the project directory, you can run:
+- **Interfaz moderna y atractiva** con diseño responsive
+- **Arquitectura modular** con componentes reutilizables
+- **Gestión de usuarios** - seleccionar usuarios existentes o agregar nuevos
+- **Reserva de canchas** - sistema completo de reservas con validación
+- **Vista de reservas actuales** - lista de todas las reservas con información detallada
+- **Eliminación de reservas** - posibilidad de cancelar reservas
+- **Validaciones** - evita reservas duplicadas y valida formularios
 
-### `npm start`
+## 📋 Requisitos Previos
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Node.js (versión 14 o superior)
+- Backend del sistema de reservas ejecutándose en `http://localhost:3002`
+- Base de datos configurada con las canchas predefinidas
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Instalación
 
-### `npm test`
+1. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Configurar la base de datos:**
+   - Asegúrate de que el backend esté ejecutándose
+   - Ejecuta el script `database_setup.sql` en tu base de datos para insertar las canchas predefinidas
 
-### `npm run build`
+3. **Iniciar la aplicación:**
+   ```bash
+   npm start
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+La aplicación se abrirá en `http://localhost:3000`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🏗️ Estructura de Componentes
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+src/
+├── components/
+│   ├── Header.js              # Encabezado principal
+│   ├── Header.css
+│   ├── MessageAlert.js        # Sistema de mensajes/notificaciones
+│   ├── MessageAlert.css
+│   ├── ReservaForm.js         # Formulario principal de reservas
+│   ├── ReservaForm.css
+│   ├── UserSelector.js        # Selector y creador de usuarios
+│   ├── UserSelector.css
+│   ├── CanchaSelector.js      # Selector de canchas
+│   ├── CanchaSelector.css
+│   ├── DateTimeSelector.js    # Selector de fecha y hora
+│   ├── DateTimeSelector.css
+│   ├── ReservasList.js        # Lista de reservas
+│   ├── ReservasList.css
+│   ├── ReservaCard.js         # Tarjeta individual de reserva
+│   ├── ReservaCard.css
+│   └── index.js               # Índice de exportaciones
+├── App.js                     # Componente principal (lógica de estado)
+├── App.css                    # Estilos globales
+└── index.js                   # Punto de entrada
+```
 
-### `npm run eject`
+### 🧩 Descripción de Componentes
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### **Header**
+- Muestra el título principal y descripción
+- Incluye iconos de deportes disponibles
+- Diseño responsive con gradientes
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### **MessageAlert**
+- Sistema de notificaciones unificado
+- Maneja mensajes de éxito y error
+- Animaciones suaves de entrada/salida
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### **ReservaForm**
+- Formulario principal que orquesta todos los selectores
+- Validación de campos completos
+- Botón inteligente que se habilita solo cuando es válido
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### **UserSelector**
+- Selector dropdown de usuarios existentes
+- Formulario emergente para agregar nuevos usuarios
+- Validación de nombres únicos
 
-## Learn More
+#### **CanchaSelector**
+- Selector simple de canchas disponibles
+- Estilizado personalizado
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### **DateTimeSelector**
+- Input de fecha y hora con validación
+- Previene selección de fechas pasadas
+- Ayuda contextual para el usuario
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### **ReservasList**
+- Lista completa de reservas
+- Estado vacío personalizado
+- Contador de reservas totales
 
-### Code Splitting
+#### **ReservaCard**
+- Tarjeta individual para cada reserva
+- Información completa (usuario, cancha, fecha, ID)
+- Botón de eliminación integrado
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🎨 Diseño y Estilos
 
-### Analyzing the Bundle Size
+### Características del Diseño
+- **Arquitectura CSS modular** - cada componente tiene su propio CSS
+- **Gradientes modernos** en tonos morados y azules
+- **Efectos de vidrio esmerilado** (glassmorphism)
+- **Animaciones suaves** en botones y tarjetas
+- **Diseño responsive** para todos los dispositivos
+- **Iconos emoji** para mejor UX
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Paleta de Colores
+- Gradiente principal: `#667eea` → `#764ba2`
+- Botón éxito: `#4CAF50` → `#45a049`
+- Botón error: `#f44336` → `#da190b`
+- Fondos: Transparencias con backdrop-filter
 
-### Making a Progressive Web App
+## 📱 Responsive Design
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+La aplicación está optimizada para:
+- **Desktop** - Layout en dos columnas
+- **Tablet** - Layout adaptativo
+- **Mobile** - Layout en una columna con componentes optimizados
 
-### Advanced Configuration
+## 🔄 Estados de la Aplicación
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Estados de Carga
+- Indicadores visuales durante operaciones
+- Deshabilitación de componentes durante procesos
+- Spinners y mensajes de carga
 
-### Deployment
+### Manejo de Errores
+- Sistema centralizado de mensajes en `MessageAlert`
+- Validación distribuida en cada componente
+- Manejo de errores de conexión
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🌟 Características Avanzadas
 
-### `npm run build` fails to minify
+### Arquitectura Modular
+- **Separación de responsabilidades** - cada componente tiene una función específica
+- **Reutilización** - componentes independientes y reutilizables
+- **Mantenibilidad** - fácil de mantener y expandir
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Validaciones Distribuidas
+- **Fecha mínima** en `DateTimeSelector`
+- **Campos requeridos** en `ReservaForm`
+- **Nombres únicos** en `UserSelector`
+
+### UX Mejorada
+- **Feedback visual** inmediato en todas las acciones
+- **Animaciones** específicas por componente
+- **Estados inteligentes** que guían al usuario
+
+## 🔧 Configuración de la API
+
+```javascript
+const API_BASE_URL = 'http://localhost:3002/api';
+```
+
+### Endpoints Utilizados:
+- `GET /usuarios` - Obtener lista de usuarios
+- `POST /usuarios` - Crear nuevo usuario
+- `GET /canchas` - Obtener lista de canchas
+- `GET /reservas` - Obtener todas las reservas
+- `POST /reservas` - Crear nueva reserva
+- `DELETE /reservas/:id` - Eliminar reserva
+
+## 🚀 Scripts Disponibles
+
+```bash
+# Iniciar en modo desarrollo
+npm start
+
+# Construir para producción
+npm run build
+
+# Ejecutar tests
+npm test
+
+# Analizar el bundle
+npm run eject
+```
+
+## 📦 Dependencias Principales
+
+- **React** - Framework de UI
+- **axios** - Cliente HTTP para API calls
+- **CSS modules** - Estilos encapsulados por componente
+
+## 🔮 Ventajas de la Arquitectura Modular
+
+### ✅ Mantenibilidad
+- Cada componente es independiente
+- Cambios aislados no afectan otros componentes
+- Fácil debugging y testing
+
+### ✅ Escalabilidad
+- Nuevos componentes se pueden agregar fácilmente
+- Componentes existentes son reutilizables
+- Estructura clara para equipos grandes
+
+### ✅ Performance
+- Componentes se pueden optimizar individualmente
+- CSS específico por componente reduce overhead
+- React puede optimizar re-renders por componente
+
+### ✅ Developer Experience
+- Estructura clara y organizada
+- Fácil de entender para nuevos desarrolladores
+- Componentes autocontenidos
+
+## 🎯 Casos de Uso por Componente
+
+### UserSelector
+- Selección de usuario existente
+- Creación de nuevo usuario
+- Validación de nombres
+
+### CanchaSelector
+- Selección simple de cancha
+- Integración con datos del backend
+
+### DateTimeSelector
+- Selección de fecha/hora
+- Validación de fechas futuras
+- UX mejorada con ayuda contextual
+
+## 📝 Notas de Desarrollo
+
+1. **Importaciones limpias** - usar el índice de componentes
+2. **Props claramente definidas** - cada componente documenta sus props
+3. **Estados locales** - componentes manejan su propio estado cuando es apropiado
+4. **Comunicación por callbacks** - componentes se comunican hacia arriba via funciones
+
+---
+
+**¡Disfruta del Sistema de Reservas de Canchas con arquitectura modular!** 🎉
