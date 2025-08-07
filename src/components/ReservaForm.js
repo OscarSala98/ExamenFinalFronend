@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import UserSelector from './UserSelector';
 import CanchaSelector from './CanchaSelector';
 import DateTimeSelector from './DateTimeSelector';
-import HorariosSugeridos from './HorariosSugeridos';
 import { validarDisponibilidadCancha } from '../utils/timeValidation';
 import './ReservaForm.css';
 
@@ -73,13 +72,6 @@ const ReservaForm = ({
         loading={loading}
         validationMessage={validacionDisponibilidad?.mensaje}
         isValid={validacionDisponibilidad?.disponible !== false}
-      />
-
-      <HorariosSugeridos
-        reservas={reservas}
-        selectedCancha={selectedCancha}
-        fechaHora={fechaHora}
-        onSeleccionarHorario={setFechaHora}
       />
 
       <button 
