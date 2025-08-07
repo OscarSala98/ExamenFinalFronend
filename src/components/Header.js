@@ -9,9 +9,6 @@ const Header = () => {
         <p>Reserva tu cancha deportiva de manera fácil y rápida</p>
         <div className="header-features">
           <span className="feature">⚽ Fútbol</span>
-          <span className="feature">🏀 Básquet</span>
-          <span className="feature">🎾 Tenis</span>
-          <span className="feature">🏐 Polideportiva</span>
         </div>
       </div>
     </header>

@@ -2,7 +2,7 @@ import React from 'react';
 import './ReservaCard.css';
 import { formatearDuracionReserva } from '../utils/timeValidation';
 
-const ReservaCard = ({ reserva, onEliminar }) => {
+const ReservaCard = ({ reserva, onEliminar, onEditar }) => {
   const formatearFecha = (fecha) => {
     return new Date(fecha).toLocaleString('es-ES', {
       year: 'numeric',
@@ -21,13 +21,22 @@ const ReservaCard = ({ reserva, onEliminar }) => {
         <p><strong>🕐 Horario:</strong> {formatearDuracionReserva(reserva.fecha_hora)}</p>
         <p><strong>🆔 Reserva:</strong> #{reserva.id}</p>
       </div>
-      <button 
-        className="btn-delete"
-        onClick={() => onEliminar(reserva.id)}
-        title="Eliminar reserva"
-      >
-        🗑️ Eliminar
-      </button>
+      <div className="reserva-actions">
+        <button 
+          className="btn-edit"
+          onClick={() => onEditar(reserva)}
+          title="Editar horario de la reserva"
+        >
+          ✏️ Editar
+        </button>
+        <button 
+          className="btn-delete"
+          onClick={() => onEliminar(reserva.id)}
+          title="Eliminar reserva"
+        >
+          🗑️ Eliminar
+        </button>
+      </div>
     </div>
   );
 };

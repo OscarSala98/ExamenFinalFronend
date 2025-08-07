@@ -108,14 +108,16 @@ export const formatearDuracionReserva = (fechaHora) => {
  * @param {Array} reservas - Lista de todas las reservas
  * @param {number} idCancha - ID de la cancha
  * @param {string} fecha - Fecha (YYYY-MM-DD)
+ * @param {number} idReservaExcluir - ID de reserva a excluir (para ediciones)
  * @returns {Array} Lista de horarios sugeridos disponibles
  */
-export const obtenerHorariosSugeridos = (reservas, idCancha, fecha) => {
+export const obtenerHorariosSugeridos = (reservas, idCancha, fecha, idReservaExcluir = null) => {
   const reservasCancha = reservas.filter(reserva => {
     const fechaReserva = stringToDate(reserva.fecha_hora);
     const fechaBuscada = new Date(fecha);
     return reserva.id_cancha === idCancha && 
-           fechaReserva.toDateString() === fechaBuscada.toDateString();
+           fechaReserva.toDateString() === fechaBuscada.toDateString() &&
+           (idReservaExcluir === null || reserva.id !== idReservaExcluir);
   });
   
   // Generar horarios desde las 8:00 hasta las 20:00 en intervalos de 30 minutos
@@ -143,4 +145,27 @@ export const obtenerHorariosSugeridos = (reservas, idCancha, fecha) => {
   }
   
   return horariosSugeridos;
+};
+
+/**
+ * Valida que un horario no sea en el pasado
+ * @param {string} fecha - Fecha en formato YYYY-MM-DD
+ * @param {string} hora - Hora en formato HH:MM
+ * @returns {Object} Resultado de la validación
+ */
+export const validarHorarioPrevioAgendamiento = (fecha, hora) => {
+  const ahora = new Date();
+  const fechaHoraSeleccionada = new Date(`${fecha}T${hora}`);
+  
+  if (fechaHoraSeleccionada <= ahora) {
+    return {
+      esValido: false,
+      mensaje: 'No se pueden hacer reservas para fechas y horas pasadas'
+    };
+  }
+  
+  return {
+    esValido: true,
+    mensaje: 'Horario válido'
+  };
 };

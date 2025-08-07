@@ -39,17 +39,42 @@
   opacity: 0.8;
 }
 
+.reserva-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.btn-edit {
+  background: linear-gradient(135deg, #17a2b8, #138496);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-edit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+}
+
 .btn-delete {
   background: linear-gradient(135deg, #f44336, #da190b);
   color: white;
   border: none;
-  padding: 0.7rem 1rem;
-  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 0.85rem;
   transition: all 0.3s ease;
   white-space: nowrap;
-  margin-left: 1rem;
 }
 
 .btn-delete:hover {
@@ -57,6 +82,7 @@
   box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
 }
 
+.btn-edit:active,
 .btn-delete:active {
   transform: translateY(0);
 }
@@ -80,8 +106,16 @@
     text-align: center;
   }
   
-  .btn-delete {
+  .reserva-actions {
+    flex-direction: row;
     margin-left: 0;
+    justify-content: center;
     width: 100%;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    flex: 1;
+    max-width: 120px;
   }
 }

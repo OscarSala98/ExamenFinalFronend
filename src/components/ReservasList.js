@@ -2,7 +2,7 @@ import React from 'react';
 import ReservaCard from './ReservaCard';
 import './ReservasList.css';
 
-const ReservasList = ({ reservas, onEliminarReserva }) => {
+const ReservasList = ({ reservas, onEliminarReserva, onEditarReserva }) => {
   if (reservas.length === 0) {
     return (
       <div className="no-reservas">
@@ -23,6 +23,7 @@ const ReservasList = ({ reservas, onEliminarReserva }) => {
           key={reserva.id} 
           reserva={reserva} 
           onEliminar={onEliminarReserva}
+          onEditar={onEditarReserva}
         />
       ))}
     </div>

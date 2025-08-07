@@ -7,6 +7,7 @@ import Header from './components/Header';
 import MessageAlert from './components/MessageAlert';
 import ReservaForm from './components/ReservaForm';
 import ReservasList from './components/ReservasList';
+import EditarReservaModal from './components/EditarReservaModal';
 
 // Utilidades
 import { validarDisponibilidadCancha } from './utils/timeValidation';
@@ -22,6 +23,10 @@ function App() {
   const [fechaHora, setFechaHora] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  
+  // Estados para el modal de edición
+  const [reservaParaEditar, setReservaParaEditar] = useState(null);
+  const [mostrarModalEdicion, setMostrarModalEdicion] = useState(false);
 
   // Cargar datos iniciales
   useEffect(() => {
@@ -129,6 +134,43 @@ function App() {
     }
   };
 
+  const editarReserva = (reserva) => {
+    setReservaParaEditar(reserva);
+    setMostrarModalEdicion(true);
+  };
+
+  const guardarEdicionReserva = async (reservaActualizada) => {
+    try {
+      setLoading(true);
+      const response = await axios.put(`${API_BASE_URL}/reservas/${reservaActualizada.id}`, {
+        fecha_hora: reservaActualizada.horaInicio
+      });
+      
+      // Actualizar la lista de reservas con la reserva editada
+      setReservas(reservas.map(reserva => 
+        reserva.id === reservaActualizada.id ? response.data : reserva
+      ));
+      
+      setMostrarModalEdicion(false);
+      setReservaParaEditar(null);
+      setMessage('Reserva editada exitosamente');
+    } catch (error) {
+      console.error('Error al editar reserva:', error);
+      if (error.response?.status === 400) {
+        setMessage('Error: Ya existe una reserva en ese horario');
+      } else {
+        setMessage('Error al editar la reserva');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const cerrarModalEdicion = () => {
+    setMostrarModalEdicion(false);
+    setReservaParaEditar(null);
+  };
+
   return (
     <div className="App">
       <Header />
@@ -160,9 +202,20 @@ function App() {
             <ReservasList 
               reservas={reservas} 
               onEliminarReserva={eliminarReserva}
+              onEditarReserva={editarReserva}
             />
           </div>
         </div>
+
+        {/* Modal de edición */}
+        <EditarReservaModal
+          reserva={reservaParaEditar}
+          isOpen={mostrarModalEdicion}
+          onClose={cerrarModalEdicion}
+          onSave={guardarEdicionReserva}
+          reservasExistentes={reservas}
+          canchas={canchas}
+        />
       </main>
     </div>
   );
