@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import UserSelector from './UserSelector';
 import CanchaSelector from './CanchaSelector';
 import DateTimeSelector from './DateTimeSelector';
+import HorariosSugeridos from './HorariosSugeridos';
+import { validarDisponibilidadCancha } from '../utils/timeValidation';
 import './ReservaForm.css';
 
 const ReservaForm = ({
   usuarios,
   canchas,
+  reservas,
   selectedUsuario,
   setSelectedUsuario,
   selectedCancha,
@@ -17,7 +20,33 @@ const ReservaForm = ({
   onCrearReserva,
   loading
 }) => {
-  const isFormValid = selectedUsuario && selectedCancha && fechaHora;
+  const [validacionDisponibilidad, setValidacionDisponibilidad] = useState(null);
+
+  // Validar disponibilidad cuando cambian la cancha o fecha/hora
+  useEffect(() => {
+    if (selectedCancha && fechaHora) {
+      const resultado = validarDisponibilidadCancha(
+        reservas, 
+        parseInt(selectedCancha), 
+        fechaHora
+      );
+      setValidacionDisponibilidad(resultado);
+    } else {
+      setValidacionDisponibilidad(null);
+    }
+  }, [selectedCancha, fechaHora, reservas]);
+
+  const isFormValid = selectedUsuario && 
+                     selectedCancha && 
+                     fechaHora && 
+                     validacionDisponibilidad?.disponible !== false;
+
+  const handleCrearReserva = () => {
+    if (validacionDisponibilidad && !validacionDisponibilidad.disponible) {
+      return; // No permitir crear reserva si hay conflicto
+    }
+    onCrearReserva();
+  };
 
   return (
     <div className="form-section">
@@ -42,11 +71,20 @@ const ReservaForm = ({
         fechaHora={fechaHora}
         setFechaHora={setFechaHora}
         loading={loading}
+        validationMessage={validacionDisponibilidad?.mensaje}
+        isValid={validacionDisponibilidad?.disponible !== false}
+      />
+
+      <HorariosSugeridos
+        reservas={reservas}
+        selectedCancha={selectedCancha}
+        fechaHora={fechaHora}
+        onSeleccionarHorario={setFechaHora}
       />
 
       <button 
         className="btn-reserve" 
-        onClick={onCrearReserva}
+        onClick={handleCrearReserva}
         disabled={loading || !isFormValid}
       >
         {loading ? '⏳ Procesando...' : '🎯 Crear Reserva'}
@@ -54,7 +92,12 @@ const ReservaForm = ({
 
       {!isFormValid && (
         <div className="form-hint">
-          <small>💡 Completa todos los campos para crear una reserva</small>
+          <small>
+            {!selectedUsuario && '� Selecciona un usuario'}
+            {!selectedCancha && selectedUsuario && ' • 🏟️ Selecciona una cancha'}
+            {!fechaHora && selectedUsuario && selectedCancha && ' • 📅 Selecciona fecha y hora'}
+            {validacionDisponibilidad?.disponible === false && ' • ❌ Resuelve el conflicto de horario'}
+          </small>
         </div>
       )}
     </div>

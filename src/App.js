@@ -8,6 +8,9 @@ import MessageAlert from './components/MessageAlert';
 import ReservaForm from './components/ReservaForm';
 import ReservasList from './components/ReservasList';
 
+// Utilidades
+import { validarDisponibilidadCancha } from './utils/timeValidation';
+
 const API_BASE_URL = 'http://localhost:3002/api';
 
 function App() {
@@ -75,6 +78,18 @@ function App() {
       return;
     }
 
+    // Validar disponibilidad antes de enviar al servidor
+    const validacion = validarDisponibilidadCancha(
+      reservas, 
+      parseInt(selectedCancha), 
+      fechaHora
+    );
+
+    if (!validacion.disponible) {
+      setMessage(validacion.mensaje);
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await axios.post(`${API_BASE_URL}/reservas`, {
@@ -87,11 +102,11 @@ function App() {
       setSelectedUsuario('');
       setSelectedCancha('');
       setFechaHora('');
-      setMessage('¡Reserva creada exitosamente!');
+      setMessage('¡Reserva creada exitosamente! La cancha está reservada por 30 minutos.');
     } catch (error) {
       console.error('Error al crear reserva:', error);
       if (error.response?.status === 400) {
-        setMessage('La cancha ya está reservada para esa fecha y hora');
+        setMessage('La cancha ya está reservada para esa fecha y hora. Cada reserva dura 30 minutos.');
       } else {
         setMessage('Error al crear la reserva');
       }
@@ -128,6 +143,7 @@ function App() {
           <ReservaForm
             usuarios={usuarios}
             canchas={canchas}
+            reservas={reservas}
             selectedUsuario={selectedUsuario}
             setSelectedUsuario={setSelectedUsuario}
             selectedCancha={selectedCancha}

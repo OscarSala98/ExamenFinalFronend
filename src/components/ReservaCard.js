@@ -1,5 +1,6 @@
 import React from 'react';
 import './ReservaCard.css';
+import { formatearDuracionReserva } from '../utils/timeValidation';
 
 const ReservaCard = ({ reserva, onEliminar }) => {
   const formatearFecha = (fecha) => {
@@ -7,8 +8,7 @@ const ReservaCard = ({ reserva, onEliminar }) => {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      weekday: 'long'
     });
   };
 
@@ -18,6 +18,7 @@ const ReservaCard = ({ reserva, onEliminar }) => {
         <h3>🏟️ {reserva.Cancha?.nombre}</h3>
         <p><strong>👤 Usuario:</strong> {reserva.Usuario?.nombre}</p>
         <p><strong>📅 Fecha:</strong> {formatearFecha(reserva.fecha_hora)}</p>
+        <p><strong>🕐 Horario:</strong> {formatearDuracionReserva(reserva.fecha_hora)}</p>
         <p><strong>🆔 Reserva:</strong> #{reserva.id}</p>
       </div>
       <button 

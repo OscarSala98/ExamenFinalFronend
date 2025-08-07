@@ -20,12 +20,70 @@
   cursor: not-allowed;
 }
 
-.datetime-help {
-  display: block;
+.datetime-input.invalid {
+  border-color: #f44336;
+  background: rgba(244, 67, 54, 0.05);
+}
+
+.datetime-input.invalid:focus {
+  border-color: #f44336;
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.datetime-info {
   margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.datetime-help {
   color: #666;
   font-size: 0.85rem;
   font-style: italic;
+}
+
+.datetime-duration {
+  color: #667eea;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.validation-message {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  animation: slideIn 0.3s ease;
+}
+
+.validation-message.valid {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  color: #2e7d32;
+}
+
+.validation-message.invalid {
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  color: #c62828;
+}
+
+.validation-icon {
+  font-size: 1rem;
+}
+
+.validation-text {
+  flex: 1;
+  line-height: 1.4;
 }
 
 /* Estilos para el calendario desplegable */
@@ -41,4 +99,15 @@
 
 .datetime-input::-webkit-datetime-edit-fields-wrapper {
   padding: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

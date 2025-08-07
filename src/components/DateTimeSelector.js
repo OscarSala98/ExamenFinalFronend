@@ -1,10 +1,13 @@
 import React from 'react';
 import './DateTimeSelector.css';
+import { formatearDuracionReserva } from '../utils/timeValidation';
 
 const DateTimeSelector = ({ 
   fechaHora, 
   setFechaHora, 
-  loading 
+  loading,
+  validationMessage,
+  isValid = true
 }) => {
   const now = new Date();
   const minDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
@@ -20,11 +23,29 @@ const DateTimeSelector = ({
         onChange={(e) => setFechaHora(e.target.value)}
         disabled={loading}
         min={minDateTime}
-        className="datetime-input"
+        className={`datetime-input ${!isValid ? 'invalid' : ''}`}
       />
-      <small className="datetime-help">
-        Selecciona una fecha y hora futuras para tu reserva
-      </small>
+      
+      <div className="datetime-info">
+        <small className="datetime-help">
+          ⏱️ Duración de la reserva: 30 minutos
+        </small>
+        
+        {fechaHora && (
+          <small className="datetime-duration">
+            🕐 Horario: {formatearDuracionReserva(fechaHora)}
+          </small>
+        )}
+      </div>
+
+      {validationMessage && (
+        <div className={`validation-message ${isValid ? 'valid' : 'invalid'}`}>
+          <span className="validation-icon">
+            {isValid ? '✅' : '❌'}
+          </span>
+          <span className="validation-text">{validationMessage}</span>
+        </div>
+      )}
     </div>
   );
 };

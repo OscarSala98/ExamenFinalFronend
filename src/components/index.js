@@ -7,3 +7,4 @@ export { default as ReservaCard } from './ReservaCard';
 export { default as UserSelector } from './UserSelector';
 export { default as CanchaSelector } from './CanchaSelector';
 export { default as DateTimeSelector } from './DateTimeSelector';
+export { default as HorariosSugeridos } from './HorariosSugeridos';
